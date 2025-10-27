@@ -1,0 +1,15 @@
+wgctl-tw-web-cli/
+├── index.html               # 主頁面，整合所有模組
+├── main.js                  # 控制 CLI 模擬、語系切換、QR 匯出
+├── cli-worker.js            # Web Worker 模擬 CLI 執行邏輯
+├── qr-export.js             # QR code 匯出模組
+├── lang.js                  # 語系資料包（zh-TW / en）
+├── README.md                # 專案說明與部署教學
+├── docs/                    # 教學文件資料夾
+│   ├── zh-TW.md             # 繁體中文教學
+│   └── en.md                # 英文教學
+├── assets/                  # 圖示與預覽資源（可選）
+│   └── logo.svg             # 專案 Logo（可選）
+├── manifest.json            # PWA 設定檔（選用）
+├── service-worker.js        # PWA 背景執行模組（選用）
+└── .gitignore               # 建議加入 node_modules、*.DS_Store 等排除項目
