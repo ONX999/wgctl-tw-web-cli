@@ -1,6 +1,49 @@
-<label for="moduleSelect" class="text-sm font-semibold mb-1 block">選擇模組：</label>
-<select id="moduleSelect" class="border rounded px-2 py-1 text-sm mb-4">
-  <option value="qr">📦 QR 匯出</option>
-  <option value="apn">📡 APN 診斷</option>
-  <option value="multi">👥 多用戶管理</option>
-</select>
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>wgctl-tw Web CLI 模擬器</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+  <div class="max-w-3xl mx-auto p-6">
+    <div class="flex justify-between items-center mb-4">
+      <h1 class="text-2xl font-bold text-blue-600">wgctl-tw CLI 模擬器</h1>
+      <select id="langSwitcher" class="border rounded px-2 py-1 text-sm">
+        <option value="zh-TW" selected>繁體中文</option>
+        <option value="en">English</option>
+      </select>
+    </div>
+
+    <p id="introText" class="text-sm mb-2">
+      請輸入 CLI 指令，支援 QR 匯出、APN 檢測、多用戶管理等模組。
+    </p>
+
+    <textarea id="cliInput" rows="4" class="w-full border rounded p-2 font-mono text-sm mb-2" placeholder="例如：wgctl-tw export --qr"></textarea>
+
+    <div class="flex gap-2 mb-4">
+      <button onclick="sendCLI()" class="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">傳送指令</button>
+      <button onclick="copyCLI()" class="bg-gray-200 text-gray-800 px-4 py-1 rounded hover:bg-gray-300">複製指令</button>
+    </div>
+
+    <pre id="cliOutput" class="bg-white p-3 rounded shadow text-sm font-mono whitespace-pre-wrap">等待輸入指令…</pre>
+
+    <div id="qrPreview" class="mt-4 hidden">
+      <h2 class="text-sm font-semibold mb-2">📦 QR 匯出預覽</h2>
+      <canvas id="qrCanvas" class="bg-white p-2 rounded shadow"></canvas>
+    </div>
+
+    <div class="mt-6 text-sm text-gray-600">
+      📚 文件連結：
+      <a href="https://github.com/universe/wgctl-tw" target="_blank" class="text-blue-600 hover:underline">GitHub Repo</a>、
+      <a href="docs/zh-TW.md" target="_blank" class="text-blue-600 hover:underline">繁中教學</a>、
+      <a href="docs/en.md" target="_blank" class="text-blue-600 hover:underline">English Docs</a>
+    </div>
+  </div>
+
+  <script src="lang.js"></script>
+  <script src="qr-export.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
