@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>wgctl-tw Web CLI - 測試頁面</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+</head>
+<body class="bg-gray-50 p-8">
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold mb-6 text-blue-600">🧪 功能測試頁面</h1>
+    
+    <div class="bg-white rounded-lg shadow p-6 mb-6">
+      <h2 class="text-xl font-semibold mb-4">1. ES6 模組測試</h2>
+      <div id="moduleTest" class="p-4 bg-gray-100 rounded">
+        <p class="text-sm text-gray-600">測試中...</p>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow p-6 mb-6">
+      <h2 class="text-xl font-semibold mb-4">2. QR Code 生成測試</h2>
+      <canvas id="testQR" class="border p-2"></canvas>
+      <div id="qrTest" class="mt-2 p-4 bg-gray-100 rounded">
+        <p class="text-sm text-gray-600">測試中...</p>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow p-6 mb-6">
+      <h2 class="text-xl font-semibold mb-4">3. Web Worker 測試</h2>
+      <div id="workerTest" class="p-4 bg-gray-100 rounded">
+        <p class="text-sm text-gray-600">測試中...</p>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow p-6 mb-6">
+      <h2 class="text-xl font-semibold mb-4">4. 語系功能測試</h2>
+      <div id="langTest" class="p-4 bg-gray-100 rounded">
+        <p class="text-sm text-gray-600">測試中...</p>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow p-6">
+      <h2 class="text-xl font-semibold mb-4">📊 測試結果總覽</h2>
+      <div id="summary" class="p-4 bg-gray-100 rounded">
+        <p class="text-sm text-gray-600">等待測試完成...</p>
+      </div>
+    </div>
+
+    <div class="mt-6 text-center">
+      <a href="index.html" class="text-blue-600 hover:underline">← 返回主頁面</a>
+    </div>
+  </div>
+
+  <script type="module">
+    let passed = 0;
+    let failed = 0;
+
+    // 測試 1: ES6 模組
+    async function testModules() {
+      try {
+        const { langPack } = await import('./lang.js');
+        const { generateQR } = await import('./qr-export.js');
+        
+        if (langPack && langPack['zh-TW'] && generateQR) {
+          document.getElementById('moduleTest').innerHTML = 
+            '<p class="text-green-600">✅ ES6 模組載入成功</p>' +
+            '<p class="text-sm mt-2">- lang.js 已載入</p>' +
+            '<p class="text-sm">- qr-export.js 已載入</p>';
+          passed++;
+        } else {
+          throw new Error('模組載入不完整');
+        }
+      } catch (error) {
+        document.getElementById('moduleTest').innerHTML = 
+          `<p class="text-red-600">❌ 模組載入失敗：${error.message}</p>`;
+        failed++;
+      }
+    }
+
+    // 測試 2: QR Code 生成
+    async function testQRCode() {
+      try {
+        const { generateQR } = await import('./qr-export.js');
+        const canvas = document.getElementById('testQR');
+        
+        if (typeof window.qrcode === 'undefined') {
+          throw new Error('QR code 庫未載入');
+        }
+        
+        generateQR('Test QR Code - wgctl-tw', canvas);
+        
+        if (canvas.width > 0 && canvas.height > 0) {
+          document.getElementById('qrTest').innerHTML = 
+            '<p class="text-green-600">✅ QR Code 生成成功</p>' +
+            `<p class="text-sm mt-2">尺寸: ${canvas.width}x${canvas.height}px</p>`;
+          passed++;
+        } else {
+          throw new Error('Canvas 尺寸異常');
+        }
+      } catch (error) {
+        document.getElementById('qrTest').innerHTML = 
+          `<p class="text-red-600">❌ QR Code 生成失敗：${error.message}</p>`;
+        failed++;
+      }
+    }
+
+    // 測試 3: Web Worker
+    function testWorker() {
+      try {
+        const worker = new Worker('cli-worker.js');
+        
+        worker.onmessage = function(e) {
+          if (e.data && e.data.includes('✅')) {
+            document.getElementById('workerTest').innerHTML = 
+              '<p class="text-green-600">✅ Web Worker 運作正常</p>' +
+              `<p class="text-sm mt-2">回應: ${e.data.substring(0, 50)}...</p>`;
+            passed++;
+            updateSummary();
+          } else {
+            throw new Error('Worker 回應異常');
+          }
+        };
+        
+        worker.onerror = function(error) {
+          document.getElementById('workerTest').innerHTML = 
+            `<p class="text-red-600">❌ Worker 錯誤：${error.message}</p>`;
+          failed++;
+          updateSummary();
+        };
+        
+        worker.postMessage({ command: 'wgctl-tw help' });
+      } catch (error) {
+        document.getElementById('workerTest').innerHTML = 
+          `<p class="text-red-600">❌ Worker 初始化失敗：${error.message}</p>`;
+        failed++;
+        updateSummary();
+      }
+    }
+
+    // 測試 4: 語系功能
+    async function testLanguage() {
+      try {
+        const { langPack } = await import('./lang.js');
+        
+        const zhTW = langPack['zh-TW'];
+        const en = langPack['en'];
+        
+        if (!zhTW || !en) {
+          throw new Error('語系資料不完整');
+        }
+        
+        const requiredKeys = ['intro', 'send', 'copy', 'clear', 'output'];
+        const zhKeys = Object.keys(zhTW);
+        const enKeys = Object.keys(en);
+        
+        const zhValid = requiredKeys.every(key => zhKeys.includes(key));
+        const enValid = requiredKeys.every(key => enKeys.includes(key));
+        
+        if (zhValid && enValid) {
+          document.getElementById('langTest').innerHTML = 
+            '<p class="text-green-600">✅ 語系功能正常</p>' +
+            `<p class="text-sm mt-2">- 繁體中文: ${zhKeys.length} 個鍵值</p>` +
+            `<p class="text-sm">- 英文: ${enKeys.length} 個鍵值</p>`;
+          passed++;
+        } else {
+          throw new Error('語系鍵值不完整');
+        }
+      } catch (error) {
+        document.getElementById('langTest').innerHTML = 
+          `<p class="text-red-600">❌ 語系測試失敗：${error.message}</p>`;
+        failed++;
+      }
+    }
+
+    // 更新總覽
+    function updateSummary() {
+      const total = passed + failed;
+      const percentage = total > 0 ? Math.round((passed / total) * 100) : 0;
+      
+      document.getElementById('summary').innerHTML = 
+        `<div class="text-lg font-semibold mb-2">測試完成</div>` +
+        `<p class="text-green-600">✅ 通過: ${passed}</p>` +
+        `<p class="text-red-600">❌ 失敗: ${failed}</p>` +
+        `<p class="text-blue-600 mt-2">通過率: ${percentage}%</p>` +
+        `<div class="mt-3 h-2 bg-gray-200 rounded">` +
+        `<div class="h-2 bg-green-500 rounded" style="width: ${percentage}%"></div>` +
+        `</div>`;
+    }
+
+    // 執行所有測試
+    async function runAllTests() {
+      await testModules();
+      await testQRCode();
+      await testLanguage();
+      testWorker(); // 異步測試，會在稍後更新
+      
+      // 初始總覽（不包含 Worker 測試）
+      setTimeout(updateSummary, 100);
+    }
+
+    // 頁面載入後執行測試
+    window.addEventListener('load', runAllTests);
+  </script>
+</body>
+</html>

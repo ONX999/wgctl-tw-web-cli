@@ -1,0 +1,32 @@
+{
+  "name": "wgctl-tw-web-cli",
+  "version": "1.0.0",
+  "description": "Web-based CLI simulator for wgctl-tw WireGuard tool",
+  "type": "module",
+  "main": "main.js",
+  "scripts": {
+    "start": "python3 -m http.server 8000",
+    "serve": "npx serve .",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/universe/wgctl-tw-web-cli"
+  },
+  "keywords": [
+    "wireguard",
+    "cli",
+    "simulator",
+    "web",
+    "taiwan",
+    "qr-code",
+    "apn",
+    "termux"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/universe/wgctl-tw-web-cli/issues"
+  },
+  "homepage": "https://github.com/universe/wgctl-tw-web-cli#readme"
+}

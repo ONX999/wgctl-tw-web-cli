@@ -1,0 +1,81 @@
+/**
+ * CSS 自訂樣式
+ * 補充 Tailwind CSS 的額外樣式
+ */
+
+/* 平滑捲動 */
+html {
+  scroll-behavior: smooth;
+}
+
+/* 程式碼區塊樣式優化 */
+pre#cliOutput {
+  max-height: 500px;
+  overflow-y: auto;
+  line-height: 1.6;
+}
+
+/* 自訂捲軸樣式 */
+pre#cliOutput::-webkit-scrollbar {
+  width: 8px;
+}
+
+pre#cliOutput::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+pre#cliOutput::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+pre#cliOutput::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* 按鈕過渡效果 */
+button {
+  transition: all 0.2s ease-in-out;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+/* QR code 容器 */
+#qrPreview {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 響應式調整 */
+@media (max-width: 640px) {
+  .max-w-3xl {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  #cliInput {
+    font-size: 14px;
+  }
+  
+  pre#cliOutput {
+    font-size: 12px;
+  }
+}
+
+/* 深色模式支援（選用）*/
+@media (prefers-color-scheme: dark) {
+  /* 可在此添加深色模式樣式 */
+}

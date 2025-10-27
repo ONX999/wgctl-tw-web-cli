@@ -3,8 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="wgctl-tw Web CLI 模擬器 - WireGuard CLI 工具網頁版展示平台" />
+  <meta name="keywords" content="WireGuard, CLI, Taiwan, QR Code, APN, Termux" />
   <title>wgctl-tw Web CLI 模擬器</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- QR Code 生成庫 -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+  <!-- 自訂樣式 -->
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body class="bg-gray-100 text-gray-800">
   <div class="max-w-3xl mx-auto p-6">
@@ -20,18 +26,30 @@
       請輸入 CLI 指令，支援 QR 匯出、APN 檢測、多用戶管理等模組。
     </p>
 
+    <!-- 快速選擇模組 -->
+    <div class="mb-3">
+      <label for="moduleSelect" class="text-sm font-medium text-gray-700 block mb-1">快速選擇模組：</label>
+      <select id="moduleSelect" class="border rounded px-3 py-2 text-sm w-full">
+        <option value="">-- 選擇模組 --</option>
+        <option value="qr">📦 QR 匯出 (export --qr)</option>
+        <option value="apn">📡 APN 診斷 (diagnose --apn)</option>
+        <option value="multi">👥 多用戶管理 (user --list)</option>
+      </select>
+    </div>
+
     <textarea id="cliInput" rows="4" class="w-full border rounded p-2 font-mono text-sm mb-2" placeholder="例如：wgctl-tw export --qr"></textarea>
 
     <div class="flex gap-2 mb-4">
-      <button onclick="sendCLI()" class="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">傳送指令</button>
-      <button onclick="copyCLI()" class="bg-gray-200 text-gray-800 px-4 py-1 rounded hover:bg-gray-300">複製指令</button>
+      <button id="sendBtn" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">傳送指令</button>
+      <button id="copyBtn" class="bg-gray-200 text-gray-800 px-4 py-2 rounded hover:bg-gray-300 transition">複製指令</button>
+      <button id="clearBtn" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">清除</button>
     </div>
 
-    <pre id="cliOutput" class="bg-white p-3 rounded shadow text-sm font-mono whitespace-pre-wrap">等待輸入指令…</pre>
+    <pre id="cliOutput" class="bg-white p-3 rounded shadow text-sm font-mono whitespace-pre-wrap min-h-[100px]">等待輸入指令…</pre>
 
     <div id="qrPreview" class="mt-4 hidden">
       <h2 class="text-sm font-semibold mb-2">📦 QR 匯出預覽</h2>
-      <canvas id="qrCanvas" class="bg-white p-2 rounded shadow"></canvas>
+      <canvas id="qrCanvas" class="bg-white p-2 rounded shadow mx-auto block"></canvas>
     </div>
 
     <div class="mt-6 text-sm text-gray-600">
@@ -42,8 +60,6 @@
     </div>
   </div>
 
-  <script src="lang.js"></script>
-  <script src="qr-export.js"></script>
-  <script src="main.js"></script>
+  <script type="module" src="main.js"></script>
 </body>
 </html>

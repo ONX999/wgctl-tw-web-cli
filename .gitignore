@@ -1,6 +1,13 @@
 # OS 系統檔案
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
 
 # Node / 前端相關
 node_modules/
@@ -8,25 +15,65 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
 
 # 編譯 / 打包輸出
 dist/
 build/
 .cache/
 .tmp/
+out/
 
 # 環境設定
 .env
 .env.local
 .env.*.local
+.env.development
+.env.production
 
 # IDE / 編輯器
 .vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
 .idea/
 *.swp
 *.swo
+*~
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+*.sublime-project
 
-# 其他
+# 測試相關
+coverage/
+.nyc_output/
+*.lcov
+
+# 日誌檔案
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# 暫存檔案
 *.bak
 *.tmp
+*.temp
+~*
+
+# 壓縮檔案（除非特別需要）
+# *.zip
+# *.tar.gz
+# *.rar
+
+# 其他
+.cache
+.vercel
+.netlify
+
