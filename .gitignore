@@ -1,0 +1,32 @@
+# OS 系統檔案
+.DS_Store
+Thumbs.db
+
+# Node / 前端相關
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# 編譯 / 打包輸出
+dist/
+build/
+.cache/
+.tmp/
+
+# 環境設定
+.env
+.env.local
+.env.*.local
+
+# IDE / 編輯器
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 其他
+*.log
+*.bak
+*.tmp
