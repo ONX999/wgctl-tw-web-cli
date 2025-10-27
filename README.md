@@ -18,4 +18,18 @@
 ---
 
 ## 📂 專案結構
-
+wgctl-tw-web-cli/
+├── index.html           # 主頁面，整合 CLI 模擬器
+├── main.js              # 控制 CLI 模擬、語系切換、QR 匯出
+├── cli-worker.js        # Web Worker 模擬 CLI 執行邏輯
+├── qr-export.js         # QR code 匯出模組
+├── lang.js              # 語系資料包（zh-TW / en）
+├── README.md            # 專案說明文件
+├── .gitignore           # Git 忽略規則
+├── docs/                # 教學文件
+│   ├── zh-TW.md         # 繁體中文教學
+│   └── en.md            # 英文教學
+├── assets/              # 圖示與資源（可選）
+│   └── logo.svg
+├── manifest.json        # PWA 設定檔（選用）
+└── service-worker.js    # PWA 背景執行模組（選用）
